@@ -103,7 +103,8 @@ export default function LoginPage() {
               </div>
               <div className="flex justify-end text-sm">
                 <a
-                  href="#"
+                  target="_blank"
+                  href={process.env.SUPPORT_LINK as string}
                   className="text-blue-600 hover:text-blue-500"
                 >
                   Problemas com o acesso?

@@ -56,8 +56,7 @@ const data = {
   navSecondary: [
     {
       title: 'Suporte',
-      // https://wa.me/5551999999999
-      url: '#',
+      url: process.env.SUPPORT_LINK as string,
       icon: IconHelp
     }
     // {
