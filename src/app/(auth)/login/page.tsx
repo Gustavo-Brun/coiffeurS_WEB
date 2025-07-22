@@ -68,7 +68,7 @@ export default function LoginPage() {
           <CardHeader className="space-y-1 pb-4">
             <div className="m-auto w-2/3">
               <Image
-                src={'/images/coiffeurs-logo-nobg.png'}
+                src="/logo.png"
                 alt="logo"
                 width={594}
                 height={410}

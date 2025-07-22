@@ -81,7 +81,7 @@ export default function SideBar({ ...props }: ComponentProps<typeof Sidebar>) {
               className="h-full w-full border-2 data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Image
-                src={'/images/coiffeurs-logo-nobg.png'}
+                src={'/logo.png'}
                 priority
                 alt="logo"
                 width={594}
