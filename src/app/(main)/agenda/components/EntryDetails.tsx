@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useForm, SubmitHandler } from 'react-hook-form';
+import { useEffect, useState } from 'react';
+import { useForm, SubmitHandler, set } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import alert from '@/components/ui/alert';
 import Link from 'next/link';
+import { Input } from '@/components/ui/input';
 
 interface EntryData {
   id: number;
@@ -40,6 +41,8 @@ interface EntryData {
 }
 
 export default function CardDetails({ selectedEntry }: { selectedEntry: EntryData }) {
+  const [entryPrice, setEntryPrice] = useState<number>(0);
+
   async function editOrder(direction: 'UP' | 'DOWN') {
     try {
       const session = await getCookies();
@@ -123,6 +126,10 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
   }
 
   async function finishCycle() {
+    if (entryPrice === 0) {
+      return toast.error('Por favor, informe o valor do atendimento.');
+    }
+
     try {
       const session = await getCookies();
 
@@ -133,7 +140,8 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          entryId: selectedEntry.id
+          entryId: selectedEntry.id,
+          entryPrice
         })
       });
 
@@ -176,6 +184,10 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
       break;
   }
 
+  useEffect(() => {
+    setEntryPrice(0);
+  }, [selectedEntry]);
+
   return (
     <div>
       <Card className="flex-1">
@@ -207,11 +219,30 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div>
-            <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
-              Anotação
-            </h3>
-            <p className="text-sm">{selectedEntry.note ? selectedEntry.note : '---'}</p>
+          <div className="grid grid-cols-2">
+            <div>
+              <label
+                htmlFor="entryPrice"
+                className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase"
+              >
+                Valor do Serviço
+              </label>
+
+              <Input
+                id="entryPrice"
+                type="number"
+                placeholder="R$ 0,00"
+                value={entryPrice}
+                onChange={(e) => setEntryPrice(Number(e.target.value))}
+                className={`${entryPrice === 0 ? 'border-destructive' : 'border-primary'}`}
+              />
+            </div>
+            <div className="text-end">
+              <h3 className="text-muted-foreground mb-2 text-sm font-semibold tracking-wide uppercase">
+                Anotação
+              </h3>
+              <p className="text-sm">{selectedEntry.note ? selectedEntry.note : '---'}</p>
+            </div>
           </div>
 
           {/* Action Buttons */}

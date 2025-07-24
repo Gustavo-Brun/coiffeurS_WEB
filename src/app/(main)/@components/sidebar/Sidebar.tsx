@@ -33,6 +33,11 @@ const data = {
   },
   NavPrimary: [
     {
+      title: 'Dashboard',
+      url: '/dashboard',
+      icon: IconDashboard
+    },
+    {
       title: 'Agenda',
       url: '/agenda',
       icon: IconListDetails
@@ -47,11 +52,6 @@ const data = {
     //   url: '/whatsapp',
     //   icon: IconBrandWhatsapp
     // },
-    // {
-    //   title: 'Dashboard',
-    //   url: '/dashboard',
-    //   icon: IconDashboard
-    // }
   ],
   navSecondary: [
     {
