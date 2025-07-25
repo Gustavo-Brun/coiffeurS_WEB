@@ -18,10 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: 'coiffeurS',
-  description: 'Sistema para Barbearias',
-  icons: {
-    icon: '/logo.png'
-  }
+  description: 'Sistema para Barbearias'
 };
 
 export default function RootLayout({
