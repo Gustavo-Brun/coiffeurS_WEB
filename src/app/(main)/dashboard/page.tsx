@@ -20,6 +20,7 @@ import { cn } from '@/lib/utils';
 import { getCookies } from '@/services/sessionManager';
 import { IClient } from '@/types';
 import { ptBR } from 'date-fns/locale';
+import { endpointWriteToDisk } from 'next/dist/build/swc/generated-native';
 
 interface DailyResult {
   client: IClient;
@@ -36,7 +37,7 @@ interface DailyResult {
 interface DailySummary {
   date: string;
   totalEarnings: number;
-  totalItems: number;
+  totalValidEntries: number;
 }
 
 export default function Dashboard() {
@@ -77,7 +78,9 @@ export default function Dashboard() {
         setSummary({
           date: format(date, 'yyyy-MM-dd'),
           totalEarnings,
-          totalItems: (responseParsed.data.entries as DailyResult[]).length
+          totalValidEntries: (responseParsed.data.entries as DailyResult[]).filter(
+            (entry) => entry.status === 'COMPLETED'
+          ).length
         });
       } else {
         console.error('Failed to fetch daily results');
@@ -170,7 +173,7 @@ export default function Dashboard() {
               <Calendar className="text-muted-foreground h-4 w-4" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{summary.totalItems}</div>
+              <div className="text-2xl font-bold">{summary.totalValidEntries}</div>
               <p className="text-muted-foreground text-xs">transações </p>
             </CardContent>
           </Card>
@@ -183,7 +186,9 @@ export default function Dashboard() {
             <CardContent>
               <div className="text-2xl font-bold">
                 {formatCurrency(
-                  summary.totalItems > 0 ? summary.totalEarnings / summary.totalItems : 0
+                  summary.totalValidEntries > 0
+                    ? summary.totalEarnings / summary.totalValidEntries
+                    : 0
                 )}
               </div>
               <p className="text-muted-foreground text-xs">por transação</p>
