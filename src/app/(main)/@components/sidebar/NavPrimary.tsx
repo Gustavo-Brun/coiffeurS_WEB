@@ -46,6 +46,7 @@ export function NavPrimary({
     icon?: Icon;
   }[];
 }) {
+  const [whatsappNumber, setWhatsappNumber] = useState<string | undefined>(undefined);
   const [whatsappConfirmation, setWhatsappConfirmation] = useState(false);
   const [addToQueueConfirmation, setAddToQueueConfirmation] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,6 +55,7 @@ export function NavPrimary({
   const pathname = usePathname();
 
   const {
+    unregister,
     register,
     formState: { errors },
     handleSubmit
@@ -160,9 +162,13 @@ export function NavPrimary({
                       type="text"
                       id="contact"
                       placeholder="ex: 11999999999"
-                      {...register('whatsappNumber')}
+                      onChange={(e) => {
+                        unregister('whatsappNumber');
+                        register('whatsappNumber', { value: e.target.value });
+                        setWhatsappNumber(e.target.value);
+                      }}
                     />
-                    {errors.name?.type === 'required' && (
+                    {!whatsappNumber && (
                       <>
                         {!whatsappConfirmation && (
                           <p
@@ -222,12 +228,12 @@ export function NavPrimary({
                             Cancelar
                           </Button>
                         </DialogClose>
-                          <Button
-                            type="submit"
-                            variant="confirm"
-                          >
-                            Confirmar
-                          </Button>
+                        <Button
+                          type="submit"
+                          variant="confirm"
+                        >
+                          Confirmar
+                        </Button>
                       </div>
                     )}
                   </DialogFooter>
