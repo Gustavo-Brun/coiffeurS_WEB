@@ -222,14 +222,12 @@ export function NavPrimary({
                             Cancelar
                           </Button>
                         </DialogClose>
-                        <DialogClose asChild>
                           <Button
                             type="submit"
                             variant="confirm"
                           >
                             Confirmar
                           </Button>
-                        </DialogClose>
                       </div>
                     )}
                   </DialogFooter>
