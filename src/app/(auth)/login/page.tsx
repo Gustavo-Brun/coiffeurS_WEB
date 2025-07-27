@@ -14,7 +14,6 @@ import { toast } from 'react-toastify';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);
-  console.log(process.env.BASE_URL);
 
   const router = useRouter();
 
