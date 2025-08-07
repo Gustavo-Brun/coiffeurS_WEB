@@ -34,7 +34,7 @@ export default function QueueStatus({ providerWpp }: { providerWpp: string }) {
   const totalInQueue = clients.length;
 
   const whatsappMessage = 'Olá! Gostaria de entrar na fila de atendimento.';
-  const whatsappUrl = `https://wa.me/${providerWpp}?text=${encodeURIComponent(whatsappMessage)}`;
+  const whatsappUrl = `https://wa.me/55${providerWpp}?text=${encodeURIComponent(whatsappMessage)}`;
 
   async function getEntries() {
     try {
