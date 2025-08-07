@@ -6,6 +6,10 @@ import { getCookies } from '@/services/sessionManager';
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  if (pathname.startsWith('/fila')) {
+    return;
+  }
+
   const userData = await getCookies();
 
   if (!userData && !pathname.startsWith('/login')) {
