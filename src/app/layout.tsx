@@ -27,7 +27,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt">
+      <head>
+        <link
+          rel="icon"
+          href="/logo/android-chrome-512x512.png"
+          sizes="any"
+        />
+      </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
         <ToastContainer />
