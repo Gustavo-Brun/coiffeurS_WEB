@@ -57,8 +57,7 @@ export default function Dashboard() {
       const session = await getCookies();
       const dateString = format(date, 'yyyy-MM-dd');
 
-      // Replace with your actual API endpoint
-      const response = await fetch(`${process.env.BASE_URL}/queues/list?date=${dateString}`, {
+      const response = await fetch(`${process.env.API_URL}/queues/list?date=${dateString}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${session?.data}`,

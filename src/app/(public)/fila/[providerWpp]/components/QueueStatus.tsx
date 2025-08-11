@@ -38,7 +38,7 @@ export default function QueueStatus({ providerWpp }: { providerWpp: string }) {
 
   async function getEntries() {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/provider/queue/${providerWpp}`, {
+      const response = await fetch(`${process.env.API_URL}/provider/queue/${providerWpp}`, {
         method: 'GET'
       });
 

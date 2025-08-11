@@ -26,7 +26,7 @@ export default function Agenda() {
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/queues/list`, {
+      const response = await fetch(`${process.env.API_URL}/queues/list`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${session?.data}`

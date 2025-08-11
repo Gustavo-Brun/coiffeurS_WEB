@@ -12,7 +12,7 @@ export default function Clientes() {
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/clients/list`, {
+      const response = await fetch(`${process.env.API_URL}/clients/list`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${session?.data}`

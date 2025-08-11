@@ -47,7 +47,7 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/queues/edit/order`, {
+      const response = await fetch(`${process.env.API_URL}/queues/edit/order`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${session?.data}`,
@@ -89,7 +89,7 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/queues/entry/cancel`, {
+      const response = await fetch(`${process.env.API_URL}/queues/entry/cancel`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${session?.data}`,
@@ -133,7 +133,7 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/queues/entry/complete`, {
+      const response = await fetch(`${process.env.API_URL}/queues/entry/complete`, {
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${session?.data}`,

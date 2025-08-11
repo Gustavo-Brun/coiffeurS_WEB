@@ -65,7 +65,7 @@ export default function DataTable({ clients }: { clients: IClient[] }) {
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/queues/add`, {
+      const response = await fetch(`${process.env.API_URL}/queues/add`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${session?.data}`,

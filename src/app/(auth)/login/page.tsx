@@ -26,7 +26,7 @@ export default function LoginPage() {
 
   const onSubmitFx: SubmitHandler<FormProps> = async (data) => {
     try {
-      const response = await fetch(`${process.env.BASE_URL}/provider/login`, {
+      const response = await fetch(`${process.env.API_URL}/provider/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

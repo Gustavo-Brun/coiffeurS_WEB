@@ -72,7 +72,7 @@ export function NavPrimary({
     try {
       const session = await getCookies();
 
-      const response = await fetch(`${process.env.BASE_URL}/clients/create`, {
+      const response = await fetch(`${process.env.API_URL}/clients/create`, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${session?.data}`,

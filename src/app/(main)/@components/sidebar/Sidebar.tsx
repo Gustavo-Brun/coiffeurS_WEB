@@ -8,7 +8,8 @@ import {
   IconListDetails,
   IconSettings,
   IconBrandWhatsapp,
-  IconUsers
+  IconUsers,
+  IconCopy
 } from '@tabler/icons-react';
 
 import { NavPrimary } from '@/app/(main)/@components/sidebar/NavPrimary';
@@ -26,11 +27,11 @@ import {
 import Image from 'next/image';
 
 const data = {
-  user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg'
-  },
+  // user: {
+  //   name: 'shadcn',
+  //   email: 'm@example.com',
+  //   avatar: '/avatars/shadcn.jpg'
+  // },
   NavPrimary: [
     {
       title: 'Dashboard',
@@ -54,6 +55,11 @@ const data = {
     // },
   ],
   navSecondary: [
+    {
+      title: 'Fila Pública',
+      url: 'copy',
+      icon: IconCopy
+    },
     {
       title: 'Suporte',
       url: process.env.SUPPORT_LINK as string,
