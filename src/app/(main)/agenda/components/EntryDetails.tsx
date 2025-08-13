@@ -232,7 +232,7 @@ export default function CardDetails({ selectedEntry }: { selectedEntry: EntryDat
                 id="entryPrice"
                 type="number"
                 placeholder="R$ 0,00"
-                value={entryPrice}
+                min={0}
                 onChange={(e) => setEntryPrice(Number(e.target.value))}
                 className={`${entryPrice === 0 ? 'border-destructive' : 'border-primary'}`}
               />
