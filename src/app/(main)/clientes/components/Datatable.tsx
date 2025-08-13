@@ -45,6 +45,8 @@ import { log } from 'console';
 type FormProps = {
   clientId: number;
   note?: string;
+  name?: string;
+  whatsappNumber?: string;
 };
 
 export default function DataTable({ clients }: { clients: IClient[] }) {
@@ -93,6 +95,54 @@ export default function DataTable({ clients }: { clients: IClient[] }) {
       console.log('ERROR', error);
       toast.error(
         'Ocorreu um erro ao agendar o cliente. Se o erro persistir entre em contato com nosso suporte.'
+      );
+    }
+
+    return setIsLoading(false);
+  };
+
+  const editClient: SubmitHandler<FormProps> = async (data) => {
+    setIsLoading(true);
+
+    try {
+      let payload: {
+        name?: string;
+        whatsappNumber?: string;
+      } = {};
+
+      if (data.name) payload.name = data.name;
+      if (data.whatsappNumber) payload.whatsappNumber = data.whatsappNumber;
+
+      const session = await getCookies();
+
+      const response = await fetch(`${process.env.API_URL}/clients/edit/${data.clientId}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${session?.data}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const responseParsed = await response.json();
+
+      if (responseParsed?.errorMessage) {
+        setIsLoading(false);
+        return toast.error(responseParsed.errorMessage);
+      }
+
+      if (response.status === 200) {
+        setIsLoading(false);
+        toast.success('Cliente editado com sucesso! Atualizando a lista...');
+        if (typeof window !== 'undefined') {
+          window.location.reload();
+        }
+      }
+      return setIsLoading(false);
+    } catch (error) {
+      console.log('ERROR', error);
+      toast.error(
+        'Ocorreu um erro ao editar o cliente. Se o erro persistir entre em contato com nosso suporte.'
       );
     }
 
@@ -159,7 +209,7 @@ export default function DataTable({ clients }: { clients: IClient[] }) {
           <TableCell>
             {item.lastEntry ? new Date(item.lastEntry).toLocaleDateString('pt-BR') : '-'}
           </TableCell>
-          <TableCell className="text-right">
+          <TableCell>
             <Dialog onOpenChange={(open) => setLoadingItem(open ? index : undefined)}>
               <DialogTrigger asChild>
                 <SidebarMenuButton
@@ -169,14 +219,14 @@ export default function DataTable({ clients }: { clients: IClient[] }) {
                   }}
                   className="mx-auto w-fit cursor-pointer"
                 >
-                  {loadingItem === index ? (
-                    <IconLoader2 className="mx-auto animate-spin" />
-                  ) : (
-                    <>
-                      <span> Adicionar à fila</span>
+                  <>
+                    <span> Adicionar à fila</span>
+                    {loadingItem === index ? (
+                      <IconLoader2 className="mx-auto animate-spin" />
+                    ) : (
                       <Plus />
-                    </>
-                  )}
+                    )}
+                  </>
                 </SidebarMenuButton>
               </DialogTrigger>
               <DialogContent
@@ -196,6 +246,81 @@ export default function DataTable({ clients }: { clients: IClient[] }) {
                       type="text"
                       id="note"
                       {...register('note')}
+                    />
+                  </div>
+
+                  <DialogFooter className="mt-4 w-full">
+                    {isLoading ? (
+                      <IconLoader2 className="mx-auto animate-spin" />
+                    ) : (
+                      <div className="flex w-full flex-row justify-between">
+                        <DialogClose asChild>
+                          <Button
+                            type="button"
+                            variant="destructive"
+                          >
+                            Cancelar
+                          </Button>
+                        </DialogClose>
+                        <Button
+                          type="submit"
+                          variant="confirm"
+                        >
+                          Confirmar
+                        </Button>
+                      </div>
+                    )}
+                  </DialogFooter>
+                </form>
+              </DialogContent>
+            </Dialog>
+            <Dialog onOpenChange={(open) => setLoadingItem(open ? index : undefined)}>
+              <DialogTrigger asChild>
+                <SidebarMenuButton
+                  onClick={() => {
+                    unregister('clientId');
+                    register('clientId', { value: item.id });
+                  }}
+                  className="mx-auto w-fit cursor-pointer"
+                >
+                  <>
+                    <span>Editar dados</span>
+                    {loadingItem === index ? (
+                      <IconLoader2 className="mx-auto animate-spin" />
+                    ) : (
+                      <Edit />
+                    )}
+                  </>
+                </SidebarMenuButton>
+              </DialogTrigger>
+              <DialogContent
+                className="sm:max-w-md"
+                aria-describedby={undefined}
+              >
+                <DialogHeader>
+                  <DialogTitle> Editar dados de {item.name}</DialogTitle>
+                </DialogHeader>
+                <form
+                  onSubmit={handleSubmit(editClient)}
+                  className="my-4 flex flex-col items-center gap-4"
+                >
+                  <div className="flex w-full max-w-sm flex-col gap-3">
+                    <Label htmlFor="name">Nome</Label>
+                    <Input
+                      placeholder={item.name}
+                      type="text"
+                      id="name"
+                      {...register('name')}
+                    />
+                  </div>
+
+                  <div className="flex w-full max-w-sm flex-col gap-3">
+                    <Label htmlFor="whatsappNumber">WhatsApp</Label>
+                    <Input
+                      placeholder={item.whatsappNumber}
+                      type="text"
+                      id="whatsappNumber"
+                      {...register('whatsappNumber')}
                     />
                   </div>
 
