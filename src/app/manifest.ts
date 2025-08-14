@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
     short_name: 'coiffeurS',
     description: 'Sistema para Barbearias',
     lang: 'pt-BR',
-    start_url: '/',
+    start_url: '/login',
     display: 'standalone'
   };
 }
