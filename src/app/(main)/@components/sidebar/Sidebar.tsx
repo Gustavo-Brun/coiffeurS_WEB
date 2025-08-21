@@ -9,7 +9,8 @@ import {
   IconSettings,
   IconBrandWhatsapp,
   IconUsers,
-  IconCopy
+  IconCopy,
+  IconChartBar
 } from '@tabler/icons-react';
 
 import { NavPrimary } from '@/app/(main)/@components/sidebar/NavPrimary';
@@ -34,11 +35,6 @@ const data = {
   // },
   NavPrimary: [
     {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: IconDashboard
-    },
-    {
       title: 'Agenda',
       url: '/agenda',
       icon: IconListDetails
@@ -47,6 +43,11 @@ const data = {
       title: 'Clientes',
       url: '/clientes',
       icon: IconUsers
+    },
+    {
+      title: 'Relatórios',
+      url: '/relatorios',
+      icon: IconChartBar
     }
     // {
     //   title: 'WhatsApp',
