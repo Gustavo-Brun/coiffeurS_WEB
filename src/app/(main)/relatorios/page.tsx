@@ -21,6 +21,7 @@ import { cn } from '@/lib/utils';
 import { getCookies } from '@/services/sessionManager';
 import type { IClient } from '@/types';
 import { ptBR } from 'date-fns/locale';
+import { join } from 'path';
 
 interface DailyResult {
   client: IClient;
@@ -41,10 +42,10 @@ interface DailySummary {
 }
 
 interface SalesEntry {
-  date: string;
+  joinedAt: string;
   name: string;
   note: string;
-  value: number;
+  price: number;
 }
 
 interface PeriodSummary {
@@ -136,15 +137,15 @@ export default function Relatorios() {
         const salesData: SalesEntry[] = entries
           .filter((entry: DailyResult) => entry.status === 'COMPLETED')
           .map((entry: DailyResult) => ({
-            date: format(new Date(entry.joinedAt), 'dd/MM/yyyy'),
+            joinedAt: format(new Date(entry.joinedAt), 'dd/MM/yyyy'),
             name: entry.client.name,
             note: entry.note || '-',
-            value: entry.price
+            price: entry.price
           }));
 
         setMonthlyData(salesData);
 
-        const totalEarnings = salesData.reduce((sum, entry) => sum + entry.value, 0);
+        const totalEarnings = salesData.reduce((sum, entry) => sum + entry.price, 0);
         const totalEntries = salesData.length;
 
         setMonthlySummary({
@@ -185,15 +186,15 @@ export default function Relatorios() {
         const salesData: SalesEntry[] = entries
           .filter((entry: DailyResult) => entry.status === 'COMPLETED')
           .map((entry: DailyResult) => ({
-            date: format(new Date(entry.joinedAt), 'dd/MM/yyyy'),
+            joinedAt: format(new Date(entry.joinedAt), 'dd/MM/yyyy'),
             name: entry.client.name,
             note: entry.note || '-',
-            value: entry.price
+            price: entry.price
           }));
 
         setAnnualData(salesData);
 
-        const totalEarnings = salesData.reduce((sum, entry) => sum + entry.value, 0);
+        const totalEarnings = salesData.reduce((sum, entry) => sum + entry.price, 0);
         const totalEntries = salesData.length;
 
         setAnnualSummary({
@@ -230,7 +231,7 @@ export default function Relatorios() {
               : entry.status === 'REMOVED'
                 ? 'Removido'
                 : 'Aguardando';
-          const value = entry.price.toString().replace('.', ',');
+          const value = entry.price ? entry.price.toString().replace('.', ',') : '0,00';
           const note = entry.note || '-';
           return `"${status}";"${entry.client.name}";"${note}";"R$ ${value}"`;
         })
@@ -239,8 +240,9 @@ export default function Relatorios() {
       headers = 'Data;Nome;Observacao;Valor\n';
       rows = (data as SalesEntry[])
         .map((entry) => {
-          const value = entry.value.toString().replace('.', ',');
-          return `"${entry.date}";"${entry.name}";"${entry.note}";"R$ ${value}"`;
+          console.log(entry);
+          const value = entry.price ? entry.price.toString().replace('.', ',') : '0,00';
+          return `"${entry.joinedAt}";"${entry.name}";"${entry.note}";"R$ ${value}"`;
         })
         .join('\n');
     }
@@ -577,11 +579,11 @@ export default function Relatorios() {
                         ) : (
                           monthlyData.map((entry, index) => (
                             <TableRow key={index}>
-                              <TableCell>{entry.date}</TableCell>
+                              <TableCell>{entry.joinedAt}</TableCell>
                               <TableCell>{entry.name}</TableCell>
                               <TableCell>{entry.note}</TableCell>
                               <TableCell className="text-right font-medium text-green-600">
-                                {formatCurrency(entry.value)}
+                                {formatCurrency(entry.price)}
                               </TableCell>
                             </TableRow>
                           ))
@@ -699,11 +701,11 @@ export default function Relatorios() {
                         ) : (
                           annualData.map((entry, index) => (
                             <TableRow key={index}>
-                              <TableCell>{entry.date}</TableCell>
+                              <TableCell>{entry.joinedAt}</TableCell>
                               <TableCell>{entry.name}</TableCell>
                               <TableCell>{entry.note}</TableCell>
                               <TableCell className="text-right font-medium text-green-600">
-                                {formatCurrency(entry.value)}
+                                {formatCurrency(entry.price)}
                               </TableCell>
                             </TableRow>
                           ))
