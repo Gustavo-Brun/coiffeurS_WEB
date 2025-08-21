@@ -287,7 +287,9 @@ export default function Relatorios() {
       <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="text-2xl font-bold">Relatórios</h1>
-          <p className="text-muted-foreground">Visualize seus ganhos e relatórios de vendas</p>
+          <p className="text-muted-foreground">
+            Visualize seus ganhos e relatórios de atendimentos
+          </p>
         </div>
 
         <Popover
@@ -345,7 +347,7 @@ export default function Relatorios() {
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Ganhos Totais</CardTitle>
+                  <CardTitle className="text-sm font-medium">Ganhos do dia</CardTitle>
                   <DollarSign className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
@@ -360,18 +362,18 @@ export default function Relatorios() {
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Transações Realizadas</CardTitle>
+                  <CardTitle className="text-sm font-medium">Atendimentos Realizados</CardTitle>
                   <Calendar className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{summary.totalValidEntries}</div>
-                  <p className="text-muted-foreground text-xs">transações</p>
+                  <p className="text-muted-foreground text-xs">atendimentos</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Média por Transação</CardTitle>
+                  <CardTitle className="text-sm font-medium">Média por Atendimento</CardTitle>
                   <DollarSign className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
@@ -382,7 +384,7 @@ export default function Relatorios() {
                         : 0
                     )}
                   </div>
-                  <p className="text-muted-foreground text-xs">por transação</p>
+                  <p className="text-muted-foreground text-xs">por atendimento</p>
                 </CardContent>
               </Card>
             </div>
@@ -393,9 +395,9 @@ export default function Relatorios() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Transações Diárias</CardTitle>
+                  <CardTitle>Atendimentos Diários</CardTitle>
                   <CardDescription>
-                    Detalhes das transações para {format(selectedDate, 'dd/MM/yyyy')}
+                    Detalhes dos atendimentos para {format(selectedDate, 'dd/MM/yyyy')}
                   </CardDescription>
                 </div>
                 <Button
@@ -440,7 +442,7 @@ export default function Relatorios() {
                                 colSpan={4}
                                 className="py-6 text-center"
                               >
-                                Não encontramos transações para essa data
+                                Não encontramos atendimentos para essa data
                               </TableCell>
                             </TableRow>
                           ) : (
@@ -458,7 +460,7 @@ export default function Relatorios() {
                                   />
                                 </TableCell>
                                 <TableCell>{result.client.name}</TableCell>
-                                <TableCell>{result.note || '-'}</TableCell>
+                                <TableCell className="text-center">{result.note || '-'}</TableCell>
                                 <TableCell className="text-right font-medium text-green-600">
                                   {formatCurrency(result.price)}
                                 </TableCell>
@@ -499,25 +501,25 @@ export default function Relatorios() {
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total de Vendas</CardTitle>
+                  <CardTitle className="text-sm font-medium">Atendimentos Realizadas</CardTitle>
                   <Calendar className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{monthlySummary.totalEntries}</div>
-                  <p className="text-muted-foreground text-xs">vendas no mês</p>
+                  <p className="text-muted-foreground text-xs">atendimentos no mês</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Média por Venda</CardTitle>
+                  <CardTitle className="text-sm font-medium">Média por Atendimento</CardTitle>
                   <DollarSign className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
                     {formatCurrency(monthlySummary.averagePerEntry)}
                   </div>
-                  <p className="text-muted-foreground text-xs">por venda</p>
+                  <p className="text-muted-foreground text-xs">por atendimento</p>
                 </CardContent>
               </Card>
             </div>
@@ -529,7 +531,7 @@ export default function Relatorios() {
                 <div>
                   <CardTitle>Relatório Mensal</CardTitle>
                   <CardDescription>
-                    Vendas de {format(selectedDate, 'MMMM yyyy', { locale: ptBR })}
+                    {format(selectedDate, 'MMMM yyyy', { locale: ptBR })}
                   </CardDescription>
                 </div>
                 <Button
@@ -573,7 +575,7 @@ export default function Relatorios() {
                               colSpan={4}
                               className="py-6 text-center"
                             >
-                              Nenhuma venda encontrada para este mês
+                              Nenhum atendimento encontrado para este mês
                             </TableCell>
                           </TableRow>
                         ) : (
@@ -581,7 +583,7 @@ export default function Relatorios() {
                             <TableRow key={index}>
                               <TableCell>{entry.joinedAt}</TableCell>
                               <TableCell>{entry.name}</TableCell>
-                              <TableCell>{entry.note}</TableCell>
+                              <TableCell className="text-center">{entry.note}</TableCell>
                               <TableCell className="text-right font-medium text-green-600">
                                 {formatCurrency(entry.price)}
                               </TableCell>
@@ -621,25 +623,25 @@ export default function Relatorios() {
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Total de Vendas</CardTitle>
+                  <CardTitle className="text-sm font-medium">Atendimentos Realizados</CardTitle>
                   <Calendar className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">{annualSummary.totalEntries}</div>
-                  <p className="text-muted-foreground text-xs">vendas no ano</p>
+                  <p className="text-muted-foreground text-xs">atendimentos no ano</p>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium">Média por Venda</CardTitle>
+                  <CardTitle className="text-sm font-medium">Média por Atendimento</CardTitle>
                   <DollarSign className="text-muted-foreground h-4 w-4" />
                 </CardHeader>
                 <CardContent>
                   <div className="text-2xl font-bold">
                     {formatCurrency(annualSummary.averagePerEntry)}
                   </div>
-                  <p className="text-muted-foreground text-xs">por venda</p>
+                  <p className="text-muted-foreground text-xs">por atendimento</p>
                 </CardContent>
               </Card>
             </div>
@@ -651,7 +653,7 @@ export default function Relatorios() {
                 <div>
                   <CardTitle>Relatório Anual</CardTitle>
                   <CardDescription>
-                    Vendas de {format(selectedDate, 'yyyy', { locale: ptBR })}
+                    Atendimentos de {format(selectedDate, 'yyyy', { locale: ptBR })}
                   </CardDescription>
                 </div>
                 <Button
@@ -695,7 +697,7 @@ export default function Relatorios() {
                               colSpan={4}
                               className="py-6 text-center"
                             >
-                              Nenhuma venda encontrada para este ano
+                              Nenhum atendimento encontrado para este ano
                             </TableCell>
                           </TableRow>
                         ) : (
@@ -703,7 +705,7 @@ export default function Relatorios() {
                             <TableRow key={index}>
                               <TableCell>{entry.joinedAt}</TableCell>
                               <TableCell>{entry.name}</TableCell>
-                              <TableCell>{entry.note}</TableCell>
+                              <TableCell className="text-center">{entry.note}</TableCell>
                               <TableCell className="text-right font-medium text-green-600">
                                 {formatCurrency(entry.price)}
                               </TableCell>
